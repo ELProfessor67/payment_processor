@@ -3,3 +3,4 @@ Django
 Requests
 whitenoise
 Brotli
+gunicorn
