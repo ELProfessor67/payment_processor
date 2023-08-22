@@ -84,7 +84,7 @@ def add_transaction(request):
             "zip_code": zip_code,
             "country": country,
             "phone_number": phone_number,
-            "amount": minusonecent(amount),
+            "avaible_amount": minusonecent(amount),
             "payment_method": payment_method,
             "transaction_type": transaction_type,
             "card_number": card_number,
@@ -92,7 +92,9 @@ def add_transaction(request):
             "exp_month": exp_month,
             "cvv": cvv,
             "email": email,
-            "transaction_id": transaction_id
+            "transaction_id": transaction_id,
+            "fees": int(amount)/100,
+            "total_amount": amount
         }
 
         encrypted_transaction_for_back = crypto.encrypt(dumps(paylaod))
