@@ -12,3 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     return HttpResponse('Working... please go /admin')
+
+def about(request):
+    return HttpResponse('Working... i am about')

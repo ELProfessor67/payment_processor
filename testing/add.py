@@ -30,5 +30,5 @@ token = "40037539-8cd9-495a-bd7f-4e5c8721e3a8"
 
 # now i will show without token request
 
-res = requests.post(f"http://localhost:8000/transation/add/?token={token}",data=data)
+res = requests.post(f"http://localhost:4000/transation/add/?token={token}",data=data)
 print(res.text)

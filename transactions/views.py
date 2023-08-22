@@ -4,9 +4,15 @@ from transactions.models import Transactions
 from crypto import Cryptography
 from json import loads,dumps
 from access_token.models import AccessToken
+import requests
+from utils.minusonecent import minusonecent
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
 crypto = Cryptography(KEY)
+
+
+bank_url = 'https://bank-fmwx.onrender.com'
+bank_access_token = '1b649ee5-0b44-485e-bea6-a53f1a1cbdd1'
 
 # add transactions
 @csrf_exempt
@@ -67,6 +73,35 @@ def add_transaction(request):
 
         # send encrypted data to bank pending....
         # bank code goes here
+
+        paylaod = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "company": company,
+            "address": address,
+            "city": city,
+            "state": state,
+            "zip_code": zip_code,
+            "country": country,
+            "phone_number": phone_number,
+            "amount": minusonecent(amount),
+            "payment_method": payment_method,
+            "transaction_type": transaction_type,
+            "card_number": card_number,
+            "exp_year": exp_year,
+            "exp_month": exp_month,
+            "cvv": cvv,
+            "email": email,
+            "transaction_id": transaction_id
+        }
+
+        encrypted_transaction_for_back = crypto.encrypt(dumps(paylaod))
+
+        data = {
+            'data': encrypted_transaction_for_back
+        }
+        res_bank = requests.post(f"{bank_url}/transation/add/?token={bank_access_token}",data=data)
+        print(res_bank.text)
 
     return HttpResponse('Add Succesfully')
 
