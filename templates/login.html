@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  {% include 'partials/_head.html' %}
+  <title>Admin Login</title>
+</head>
+
+<body>
+  <section class="login-section py-6 px-4 bg-dark">
+    <div class="container-fluid login-container bg-light py-4 px-3 rounded">
+      <h1 class="fs-1 text-dark mb-5 text-center">Welcome To Payment Processor</h1>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+          <div id="emailHelp" class="form-text">We'll never share your username with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+        </div>
+        <p class="text-danger fs-6">{{ error }}</p>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </section>
+</body>
+
+</html>

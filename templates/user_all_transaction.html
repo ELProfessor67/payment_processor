@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  {% include 'partials/_head.html' %}
+  <title>Transactions List</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+  <section class="list-section py-6 px-4">
+    <div class="container-fluid">
+        <table class="table custom-table mt-5">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Company</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Zip Code</th>
+                <th scope="col">Country</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Aviable Amount</th>
+                <th scope="col">G Fee</th>
+                <th scope="col">P Fee</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Transaction Type</th>
+                <th scope="col">Status Code</th>
+                <th scope="col">Card Number</th>
+                <th scope="col">Exp Year</th>
+                <th scope="col">Exp Month</th>
+                <th scope="col">Cvv</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+           <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <th scope="row fs-6">{{forloop.counter}}</th>
+
+                    <th scope="row fs-6">{{transaction.first_name}}</th>
+                    <th scope="row fs-6">{{transaction.last_name}}</th>
+                    <th scope="row fs-6">{{transaction.company}}</th>
+                    <th scope="row fs-6">{{transaction.address}}</th>
+                    <th scope="row fs-6">{{transaction.city}}</th>
+                    <th scope="row fs-6">{{transaction.state}}</th>
+                    <th scope="row fs-6">{{transaction.zip_code}}</th>
+                    <th scope="row fs-6">{{transaction.country}}</th>
+                    <th scope="row fs-6">{{transaction.phone_number}}</th>
+                    <th scope="row fs-6">{{transaction.amount}} $</th>
+                    <th scope="row fs-6">{{transaction.g_fee}} $</th>
+                    <th scope="row fs-6">{{transaction.p_fee}} $</th>
+                    <th scope="row fs-6">{{transaction.payment_method}}</th>
+                    <th scope="row fs-6">{{transaction.codes.transaction_type}}</th>
+                    <th scope="row fs-6">{{transaction.codes.code}}</th>
+                    <th scope="row fs-6">{{transaction.card_number}}</th>
+                    <th scope="row fs-6">{{transaction.exp_year}}</th>
+                    <th scope="row fs-6">{{transaction.exp_month}}</th>
+                    <th scope="row fs-6">{{transaction.cvv}}</th>
+                    <th scope="row fs-6">{{transaction.email}}</th>
+                    <th scope="row fs-6">{{transaction.created_at}}</th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </section>
+</body>
+
+</html>

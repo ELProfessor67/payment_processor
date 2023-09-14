@@ -1,17 +1,22 @@
 from django.http import JsonResponse,HttpResponse
+from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from transactions.models import Transactions
+from transactions.models import Transactions,Fees
 from crypto import Cryptography
 from json import loads,dumps
 from access_token.models import AccessToken
 import requests
 from utils.minusonecent import minusonecent
+from django.contrib.auth.decorators import login_required
+
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
 crypto = Cryptography(KEY)
 
 
-bank_url = 'https://bank-fmwx.onrender.com'
+
+# bank_url = 'https://bank-fmwx.onrender.com'
+bank_url = 'http://localhost:3000'
 bank_access_token = '1b649ee5-0b44-485e-bea6-a53f1a1cbdd1'
 
 # add transactions
@@ -63,12 +68,13 @@ def add_transaction(request):
     cvv = json_data['cvv']
     email = json_data['email']
     transaction_id = json_data['transaction_id']
-
+    username = json_data['authusername']
+    # print('json data',json_data)
     # checking data is valid or not
     if(json_data):
 
         # add in database
-        transaction = Transactions.objects.create(transaction_id=transaction_id,email=email,cvv=cvv,exp_month=exp_month,exp_year=exp_year,card_number=card_number,transaction_type=transaction_type,payment_method=payment_method,amount=amount,phone_number=phone_number,country=country,zip_code=zip_code,state=state,first_name=first_name,last_name=last_name,company=company,address=address,city=city,)
+        transaction = Transactions.objects.create(username=username,transaction_id=transaction_id,email=email,cvv=cvv,exp_month=exp_month,exp_year=exp_year,card_number=card_number,transaction_type=transaction_type,payment_method=payment_method,amount=amount,phone_number=phone_number,country=country,zip_code=zip_code,state=state,first_name=first_name,last_name=last_name,company=company,address=address,city=city,)
         print('Add Succesfully')
 
         # send encrypted data to bank pending....
@@ -94,7 +100,8 @@ def add_transaction(request):
             "email": email,
             "transaction_id": transaction_id,
             "fees": int(amount)/100,
-            "total_amount": amount
+            "total_amount": amount,
+            "username": username
         }
 
         encrypted_transaction_for_back = crypto.encrypt(dumps(paylaod))
@@ -102,8 +109,12 @@ def add_transaction(request):
         data = {
             'data': encrypted_transaction_for_back
         }
-        res_bank = requests.post(f"{bank_url}/transation/add/?token={bank_access_token}",data=data)
-        print(res_bank.text)
+        try:
+            res_bank = requests.post(f"{bank_url}/transation/add/?token={bank_access_token}",data=data)
+            print(res_bank.text)
+        except Exception as e:
+            print(e)
+        
 
     return HttpResponse('Add Succesfully')
 
@@ -115,3 +126,61 @@ def get_all_transaction(request):
     transactions = list(Transactions.objects.values())
     print(transactions)
     return JsonResponse(transactions,safe=False)
+
+
+
+@login_required(login_url='/login')
+def user_show_list(request):
+    transactions = Transactions.objects.all().values()
+    usernames_list = []
+    for transaction in transactions:
+        if not transaction.get('username') in usernames_list:
+            usernames_list.append(transaction.get('username'))
+    
+    list = []
+    for username in usernames_list:
+        user_transation = Transactions.objects.filter(username=username).values()
+        list_user_transation = []
+        for t in user_transation:
+            list_user_transation.append(t)
+
+        obj = {
+            "username": username,
+            "total_transaction": len(user_transation),
+            "last_transaction": user_transation[len(user_transation)-1].get('created_at')
+        }
+        list.append(obj)
+    
+    return render(request,'transaction_user_list.html',{'list':list})
+
+
+@login_required(login_url='/login')
+def user_transaction(request,username):
+    transactions = Transactions.objects.filter(username=username)
+    temp_transactions = []
+    for i in transactions:
+        temp_transactions.append(i.get_codes().cut_fee())
+    transactions = temp_transactions
+
+    # print(transactions[0].codes)
+
+    return render(request,'user_all_transaction.html',{'transactions':transactions})
+
+
+def fee(request):
+    fee_model = Fees.objects.all().first()
+    if request.method == "POST":
+        percent = request.POST.get('percent')
+        flat_fee = request.POST.get('flat_fee')
+        if fee_model is None:
+            fee_model = Fees.objects.create(percent=percent,flat_fee=flat_fee)
+        else:
+            fee_model.percent = percent
+            fee_model.flat_fee = flat_fee
+            fee_model.save()
+
+        print(fee_model)
+        print(flat_fee,percent)
+        return redirect('/transation/fee/')
+    return render(request,'customize_fee.html',{"model":fee_model})
+    

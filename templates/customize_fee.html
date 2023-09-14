@@ -1,0 +1,29 @@
+<html lang="en">
+{% load static %}
+
+<head>
+    {% include 'partials/_head.html' %}
+    <title>Codes</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+    <section class="login-section py-6 px-4">
+        <div class="container-fluid login-container bg-light py-4 px-3 rounded">
+          <h1 class="fs-1 text-dark mb-5 text-center">Customize Fee</h1>
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="percent" class="form-label">Percent</label>
+              <input type="text" class="form-control" id="percent" name="percent" value="{{model.percent}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="flat_fee" class="form-label">Flat Fee</label>
+              <input type="text" class="form-control" id="flat_fee" value="{{model.flat_fee}}" name="flat_fee">
+            </div>
+            <button type="submit" class="btn btn-primary">Change</button>
+          </form>
+        </div>
+    </section>
+</body>
+</html>

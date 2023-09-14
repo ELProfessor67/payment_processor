@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  {% include 'partials/_head.html' %}
+  <title>Transactions List</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+  <section class="list-section py-6 px-4">
+    <div class="container-fluid">
+        <table class="table mt-5">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Total Transaction</th>
+                <th scope="col">Last Transaction</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for user in list %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><a href="/transation/list/{{user.username}}" class="text-decoration-none">{{user.username}}</a></td>
+                    <td>{{user.total_transaction}}</td>
+                    <td>{{user.last_transaction}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </section>
+</body>
+
+</html>

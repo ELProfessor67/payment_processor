@@ -1,0 +1,184 @@
+<html lang="en">
+{% load static %}
+
+<head>
+    {% include 'partials/_head.html' %}
+    <title>Codes</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+    <section class="list-section py-4 px-4">
+        <div class="container-fluid">
+            <h1 class="fs-2 text-dark">Transaction flow</h1>
+            <img src="{% static '/images/table.jpg' %}" />
+
+            <div class="table-container py-4">
+                <h1 class="fs-2 text-dark mb-4 mt-2">Debit full balance</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Processing code</th>
+                            <th scope="col">Processing code description</th>
+                            <th scope="col">Balance impact</th>
+                            <th scope="col">Transaction type</th>
+                            <th scope="col">Transaction type description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left">00</td>
+                            <td style="text-align:left">PURCHASE</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>101</td>
+                            <td>PURCHASE</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">0001</td>
+                            <td style="text-align:left">REFUND PURCHASE</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>503</td>
+                            <td>PURCHASE REVERSAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">003100</td>
+                            <td style="text-align:left">INTERNATIONAL PURCHASE</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>102</td>
+                            <td>INTERNATIONAL PURCHASE</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">003101</td>
+                            <td style="text-align:left">INTERNATIONAL PURCHASE REVERSAL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>508</td>
+                            <td>INTERNATIONAL PURCHASE REV</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007000</td>
+                            <td style="text-align:left">DEBIT TRANSFER</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>304</td>
+                            <td>DEBIT TRANSFER</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007001</td>
+                            <td style="text-align:left">DEBIT REVERSAL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>392</td>
+                            <td>DEBIT REVERSAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007200</td>
+                            <td style="text-align:left">CREDIT TRANSFER</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>320</td>
+                            <td>MONEY ORDER</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007201</td>
+                            <td style="text-align:left">CREDIT REVERSAL</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>391</td>
+                            <td>CREDIT REVERSAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007503</td>
+                            <td style="text-align:left">DEPOSIT BY BILL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>341</td>
+                            <td>DEPOSIT BY BILL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007700</td>
+                            <td style="text-align:left">ZERO DEBIT TRANSFER</td>
+                            <td style="text-align:left"><strong>0</strong> (no impact, zero balance)*</td>
+                            <td>330</td>
+                            <td>ZERO DEBIT TRANSFER</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">007701</td>
+                            <td style="text-align:left">TRANSFER REVERSION ZERO DEBIT</td>
+                            <td style="text-align:left"><strong>0</strong> (no impact, zero balance)*</td>
+                            <td>331</td>
+                            <td>TRANSFER REVERSION ZERO DEBIT</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">01</td>
+                            <td style="text-align:left">NATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>123</td>
+                            <td>WITHDRAWAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">01</td>
+                            <td style="text-align:left">NATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>604</td>
+                            <td>WITHDRAWAL FEE</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">0101</td>
+                            <td style="text-align:left">REVERSE NATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>512</td>
+                            <td>REVERSAL WITHDRAWAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">0101</td>
+                            <td style="text-align:left">REVERSE NATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>9467</td>
+                            <td>REVERSAL FEE WITHDRAWAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">013100</td>
+                            <td style="text-align:left">INTERNATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>124</td>
+                            <td>INTERNATIONAL WITHDRAWAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">013100</td>
+                            <td style="text-align:left">INTERNATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                            <td>604</td>
+                            <td>WITHDRAWAL FEE</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">013101</td>
+                            <td style="text-align:left">REVERSAL INTERNATIONAL WITHDRAWAL</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>510</td>
+                            <td>REVERSAL INTERNATIONAL WITHDRAWAL</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">20</td>
+                            <td style="text-align:left">CREDIT VOUCHER</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>203</td>
+                            <td>CREDIT VOUCHER</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">903002</td>
+                            <td style="text-align:left">UTILITIES PAYMENT</td>
+                            <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                            <td>917</td>
+                            <td>UTILITIES PAYMENT</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left">904002</td>
+                            <td style="text-align:left">UTILITIES PAYMENT REVERSAL</td>
+                            <td style="text-align:left"><strong>-1 </strong>(debit, cashout)</td>
+                            <td>541</td>
+                            <td>UTILITIES PAYMENT STATE</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

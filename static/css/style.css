@@ -1,0 +1,40 @@
+.login-section
+{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    place-items: center;
+}
+
+.login-container
+{
+    max-width: 40rem !important;
+    margin: auto !important;
+}
+
+.custom-table
+{
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+@media(max-width: 450px){
+    .table{
+        width: 100%;
+        max-width: 100%;
+        table-layout: auto;
+        padding: 0;
+        margin: 0;
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

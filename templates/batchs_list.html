@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  {% include 'partials/_head.html' %}
+  <title>Transactions List</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+  <section class="list-section py-6 px-4">
+    <div class="container-fluid">
+        <table class="table mt-5">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+           {% for batch in batchs %}
+                <tr>
+                    <th scope="row">{{batch.id}}</th>
+                    <td><a href="/batch/list/{{batch.id}}" class="text-decoration-none">{{batch.name}}</a></td>
+                    <td>{{batch.desciption}}</td>
+                    <td>{{batch.date}}</td>
+                    <td>{{batch.status}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </section>
+</body>
+
+</html>
