@@ -14,6 +14,18 @@
       <form method="post">
         {% csrf_token %}
         <div class="mb-3">
+            <label for="first_name" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" required>  
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" name="email" required>   
+        </div>
+        <div class="mb-3">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" id="username" name="username" required>
           <div id="emailHelp" class="form-text">We'll never share your username with anyone else.</div>
@@ -23,10 +35,12 @@
           <input type="password" class="form-control" id="exampleInputPassword1" name="password">
         </div>
         <div class="mb-3">
-          <p class="p-1 fs-5 text-dark">If you don't have account <a style="text-decoration: none;" href="/register">Sign Up</a></p>
-        </div>
-        <p class="text-danger fs-6">{{ error }}</p>
-        <button type="submit" class="btn btn-primary">Login</button>
+            <p class="p-1 fs-5 text-dark">If you already have account <a style="text-decoration: none;" href="/login">Sign In</a></p>
+          </div>
+        {% for error in errors %}
+            <p class="text-danger fs-6">{{ error }}</p>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Register</button>
       </form>
     </div>
   </section>

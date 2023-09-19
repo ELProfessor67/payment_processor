@@ -1,0 +1,32 @@
+<html lang="en">
+{% load static %}
+
+<head>
+    {% include 'partials/_head.html' %}
+    <title>Codes</title>
+</head>
+
+<body>
+    {% include 'partials/_navbar.html' %}
+    <section class="list-section py-4 px-4">
+        <div class="container-fluid">
+            <h1 class="fs-2 text-dark text-center">User keys</h1>
+            <div class="p-4 bg-light" style="max-width: 50rem; margin: auto; background-color: grey; margin-top: 1rem;">
+                <div style="display: flex; flex-direction: row; margin: 2rem 0;">
+                    <label class="fs-4" style="margin-right: 1rem; white-space-collapse: break-spaces; line-height: 1.9;">Account Id</label>
+                    <input type="text" readonly value="{{user.account_id}}" class="form-control" style="height: 3rem; background-color: white; width: 80%;"/>
+                </div>
+                <div style="display: flex; flex-direction: row; margin: 2rem 0;">
+                    <label class="fs-4" style="margin-right: 1rem; white-space-collapse: break-spaces; line-height: 1.9;">Secret</label>
+                    <input type="text" readonly value="{{user.secret}}" class="form-control" style="height: 3rem; background-color: white; width: 80%;"/>
+                </div>
+                <div style="display: flex; flex-direction: row; margin: 2rem 0;">
+                    <label class="fs-4" style="margin-right: 1rem; white-space-collapse: break-spaces; line-height: 1.9;">Key</label>
+                    <input type="text" readonly value="{{user.key}}" class="form-control" style="height: 3rem; background-color: white; width: 80%;"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
