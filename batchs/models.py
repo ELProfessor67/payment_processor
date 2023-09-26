@@ -3,6 +3,7 @@ import datetime
 # Create your models here.
 
 class Batchs(models.Model):
+    owner = models.CharField(max_length=100)
     batch_id = models.IntegerField(default=1)
     name = models.CharField(max_length=50)
     desciption = models.CharField(max_length=300)

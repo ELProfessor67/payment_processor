@@ -7,6 +7,8 @@ from .models import Batchs
 from json import dumps, loads
 from transactions.models import Transactions
 import requests
+from django.db.models import Q
+from access_token.models import UserKeys
 # Create your views here.
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
@@ -18,32 +20,28 @@ bank_access_token = '1b649ee5-0b44-485e-bea6-a53f1a1cbdd1'
 
 @csrf_exempt
 def create_batch(request):
-    token = request.GET.get('token')
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account = request.GET.get('account')
 
+    owner = UserKeys.objects.filter(secret=secret,key=key,account_id=account).first()
+    print(owner.username)
     # check token in empty
-    if(token == None):
-        return HttpResponse("invalid access token")
-
-
-    # checking token valid aut not
-    if(token):
-        try:
-            checktoken = AccessToken.objects.get(token=token)
-        except AccessToken.DoesNotExist:
-            return HttpResponse("invalid access token")
-
+    if(owner == None):
+        return HttpResponse("invalid credentials")
 
     
     # check request method 
     if(request.method != "POST"):
-        return HttpResponse(f"can't {request.method} /transaction/add")
+        return HttpResponse(f"can't {request.method} /batch/create")
 
     
     
     # get data and decrypt and to dic
-    data = request.POST['data']
-    bacths_decrypted = crypto.decrypt(data)
-    json_data = crypto.dic(bacths_decrypted)
+    # data = request.POST['data']
+    # bacths_decrypted = crypto.decrypt(data)
+    # json_data = crypto.dic(bacths_decrypted)
+    json_data = request.POST
 
     name = json_data.get('name')
     desciption = json_data.get('desciption')
@@ -57,7 +55,7 @@ def create_batch(request):
     if(json_data):
 
         # add in database
-        batch = Batchs(batch_id=batch_id,date=date,name=name,desciption=desciption,username=username,transactions=transactions,status=status)
+        batch = Batchs(owner=owner.username,batch_id=batch_id,name=name,desciption=desciption,username=username,transactions=transactions,status=status)
         batch.save()
         print('Add Succesfully')
 
@@ -71,7 +69,8 @@ def create_batch(request):
             "transactions" : transactions,
             "status" : status,
             "date":date,
-            "batch_id": batch_id
+            "batch_id": batch_id,
+            "owner": owner.username
         }
 
         excrypted_batchs = crypto.encrypt(dumps(paylaod))
@@ -79,25 +78,107 @@ def create_batch(request):
         data = {
             'data': excrypted_batchs
         }
-        res_bank = requests.post(f"{bank_url}/batch/create/?token={bank_access_token}",data=data)
-        print(res_bank.text)
+        try:
+            res_bank = requests.post(f"{bank_url}/batch/create/?token={bank_access_token}",data=data)
+            print(res_bank.text)
+        except Exception as e:
+            print(e)
 
     return HttpResponse('Add Succesfully')
 
 @login_required(login_url='/login')
 def batch_list(request):
-    batchs = Batchs.objects.all().values()
-    return render(request, 'batchs_list.html',{"batchs":batchs})
+    owner = request.user.username
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    name = request.GET.get('name')
+
+    query = Q()
+    query &= Q(owner=owner)
+    if start and end:
+        if start == end:
+            query &= Q(date__date=start)
+        else:
+            query &= Q(date__range=(start,end))
+    
+    if name:
+        query &= Q(username__icontains = name)
+
+    
+    batchs = Batchs.objects.filter(query).values()
+
+    all_sale_transaction_card = []
+    all_credit_trsansaction_card = []
+        
+    for i in range(len(batchs)):
+        trasnsactions_ids = loads(batchs[i].get('transactions'))
+        total = 0
+        credit = 0
+        sales = 0
+        for id in trasnsactions_ids:
+            transaction = Transactions.objects.filter(transaction_id=id).first()
+            if transaction.transaction_type == 'refund':
+                all_credit_trsansaction_card.append(transaction.get_card_company())
+            else:
+                all_sale_transaction_card.append(transaction.get_card_company())
+                
+            if transaction.transaction_type == 'refund':
+                credit += int(transaction.amount)
+            else:
+                sales += int(transaction.amount)
+
+            total += int(transaction.amount)
+        batchs[i]['total'] = total
+        batchs[i]['sales'] = sales
+        batchs[i]['credit'] = credit
+
+    all_sale_transaction_card_data = {}
+    all_credit_trsansaction_card_data = {}
+    for i in all_sale_transaction_card:
+        if i in all_sale_transaction_card_data:
+            all_sale_transaction_card_data[i] += 1
+        else:
+            all_sale_transaction_card_data[i] = 1
+        
+    for i in all_credit_trsansaction_card:
+        if i in all_credit_trsansaction_card_data:
+            all_credit_trsansaction_card_data[i] += 1
+        else:
+            all_credit_trsansaction_card_data[i] = 1
+    
+    greeting = {}
+    greeting['credit_data'] = dumps(all_credit_trsansaction_card_data)
+    greeting['sale_data'] = dumps(all_sale_transaction_card_data)
+    greeting['batchs'] = batchs
+
+    return render(request, 'batchs_list.html',greeting)
 
 
 @login_required(login_url='/login')
 def batch_transaction_list(request,id):
+    owner = request.user.username
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    name = request.GET.get('name')
+
+    query = Q()
+    query &= Q(owner=owner)
+    if start and end:
+        if start == end:
+            query &= Q(created_at__date=start)
+        else:
+            query &= Q(created_at__range=(start,end))
+    
+    if name:
+        query &= Q(first_name__icontains = name)
+
     batchs = Batchs.objects.filter(id=id).values().first()
     transaction_ids = loads(batchs.get('transactions'))
 
     transactions = []
     for transaction_id in transaction_ids:
-        transaction = Transactions.objects.filter(transaction_id=transaction_id).first()
+        query &= Q(transaction_id=transaction_id)
+        transaction = Transactions.objects.filter(query).first()
         if transaction != None:
             transactions.append(transaction)
     

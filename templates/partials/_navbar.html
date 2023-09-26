@@ -1,30 +1,137 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/transation/list/">Transactions List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/batch/list">Batch List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/code/table">Codes Table</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/transation/fee">Customize Fee</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/api/management/">Api Management</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-        </ul>
-      </div>
+{% load static %}
+
+<!-- side bar -->
+<nav class="navbar navbar-vertical navbar-expand-lg">
+  <script>
+    var navbarStyle = window.config.config.phoenixNavbarStyle;
+    if (navbarStyle && navbarStyle !== 'transparent') {
+      document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+    }
+  </script>
+  <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+    <!-- scrollbar removed-->
+    <div class="navbar-vertical-content">
+      <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+        <li class="nav-item">
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="pie-chart"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Dashboard</span></span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/transation/list/" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="credit-card"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Transactions</span></span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/batch/list" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="dollar-sign"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Batchs</span></span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/code/table" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="code"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Status Codes</span></span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/api/management" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="key"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">Your Keys</span></span>
+              </div>
+            </a>
+          </div>
+          
+
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/transation/user/list/" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="users"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">My Customer</span></span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-item-wrapper my-4">
+            <a class="nav-link label-1" href="/my/team" role="button" data-bs-toggle="" aria-expanded="false">
+              <div class="d-flex align-items-center">
+                <span class="nav-link-icon"><span data-feather="user-plus"></span></span>
+                <span class="nav-link-text-wrapper"><span class="nav-link-text">My Team</span></span>
+              </div>
+            </a>
+          </div>
+
+          {% if user.is_superuser  %}
+            <div class="nav-item-wrapper my-4">
+              <a class="nav-link label-1" href="/transation/fee" role="button" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-icon"><span data-feather="sliders"></span></span>
+                  <span class="nav-link-text-wrapper"><span class="nav-link-text">Customize Fee</span></span>
+                </div>
+              </a>
+            </div>
+            
+            <div class="nav-item-wrapper my-4">
+              <a class="nav-link label-1" href="/admin" role="button" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-icon"><span data-feather="user-check"></span></span>
+                  <span class="nav-link-text-wrapper"><span class="nav-link-text">Admin Dashboard</span></span>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+
+        </li>
+      </ul>
     </div>
+  </div>
+  <div class="navbar-vertical-footer">
+    <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+  </div>
+</nav>
+
+
+<nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
+  <div class="collapse navbar-collapse justify-content-between">
+    <div class="navbar-logo">
+
+      <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+      <a class="navbar-brand me-1 me-sm-3" href="index.html">
+        <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center"><img src="{% static 'assets/img/icons/logo.png' %}" alt="phoenix" width="27" />
+            <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+      <li class="nav-item">
+        <div class="theme-control-toggle fa-icon-wait px-2">
+          <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
+          <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label>
+          <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label>
+        </div>
+      </li>
+      <li class="nav-item ml-2">
+        <a href="/logout" class="fs-1 text-dark px-2" style="text-decoration: none;">Logout</a>
+      </li>
+    </ul>
+  </div>
 </nav>

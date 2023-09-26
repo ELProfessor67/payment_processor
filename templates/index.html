@@ -1,0 +1,344 @@
+<html lang="en">
+{% load static %}
+
+<head>
+    {% include 'partials/_head.html' %}
+    <title>Payment Processor - Dashboard</title>
+</head>
+
+<body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        {% include 'partials/_navbar.html' %}
+        <div class="content">
+            <div class="pb-5">
+                <div class="row g-4">
+                    <div class="col-12 col-xxl-6">
+                        <div class="mb-8">
+                            <h2 class="mb-2">Payment Processor Dashboard</h2>
+                            <h5 class="text-700 fw-semi-bold">Here’s what’s going on at your business right now</h5>
+                        </div>
+                        <div class="row align-items-center g-4">
+                            <div class="col-12 col-md-auto">
+                                <div class="d-flex align-items-center"><span class="fa-stack"
+                                        style="min-height: 46px;min-width: 46px;"><span
+                                            class="fa-solid fa-square fa-stack-2x text-success-300"
+                                            data-fa-transform="down-4 rotate--10 left-4"></span><span
+                                            class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                            data-fa-transform="up-4 right-3 grow-2"></span><span
+                                            class="fa-stack-1x fa-solid fa-star text-success "
+                                            data-fa-transform="shrink-2 up-8 right-6"></span></span>
+                                    <div class="ms-3">
+                                        <h4 class="mb-0">{{users}} New Users</h4>
+                                        <p class="text-800 fs--1 mb-0">Today Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-auto">
+                                <div class="d-flex align-items-center"><span class="fa-stack"
+                                        style="min-height: 46px;min-width: 46px;"><span
+                                            class="fa-solid fa-square fa-stack-2x text-warning-300"
+                                            data-fa-transform="down-4 rotate--10 left-4"></span><span
+                                            class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
+                                            data-fa-transform="up-4 right-3 grow-2"></span><span
+                                            class="fa-stack-1x fa-solid fa-pause text-warning "
+                                            data-fa-transform="shrink-2 up-8 right-6"></span></span>
+                                    <div class="ms-3">
+                                        <h4 class="mb-0">{{newtransactions}} New Transactions</h4>
+                                        <p class="text-800 fs--1 mb-0">today  Transactions</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-auto">
+                                <div class="d-flex align-items-center"><span class="fa-stack"
+                                        style="min-height: 46px;min-width: 46px;"><span
+                                            class="fa-solid fa-square fa-stack-2x text-danger-300"
+                                            data-fa-transform="down-4 rotate--10 left-4"></span><span
+                                            class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100"
+                                            data-fa-transform="up-4 right-3 grow-2"></span><span
+                                            class="fa-stack-1x fa-solid fa-xmark text-danger "
+                                            data-fa-transform="shrink-2 up-8 right-6"></span></span>
+                                    <div class="ms-3">
+                                        <h4 class="mb-0">{{newbatchs}} New Batchs</h4>
+                                        <p class="text-800 fs--1 mb-0">Today Batchs</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="bg-200 mb-6 mt-4" />
+                        <form class="row flex-between-center mb-4 g-3">
+                            <div class="col-auto">
+                                <h3>Select Date</h3>
+                                <p class="text-700 lh-sm mb-0">All Data show by date</p>
+                            </div>
+                            <div class="col-8 col-sm-4">
+                                <select name="date" class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
+                                    <option value="today" selected>Today</option>
+                                    <option value="yesterday">Yesterday</option>
+                                    <option value="last_7_day">Last 7 days</option>
+                                    <option value="last_month">Last Month</option>
+                                    <option value="last_6_month">Last 6 Month</option>
+                                    <option value="last_year">Last Year</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 col-xxl-6">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h5 class="mb-1">Total Users</h5>
+                                                <h6 class="text-700">{{time}}</h6>
+                                            </div>
+                                            <h4>{{users}}</h4>
+                                        </div>
+                                        <div class="d-flex justify-content-center px-4 py-6">
+                                            <div class="echart-total-orders" style="height:85px;width:115px"></div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bullet-item bg-primary me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bullet-item bg-primary-100 me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h5 class="mb-1">Total Transaction</h5>
+                                                <h6 class="text-700">{{time}}</h6>
+                                            </div>
+                                            <h4>{{transactions}}</h4>
+                                        </div>
+                                        <div class="d-flex justify-content-center px-4 py-6">
+                                            <div class="echart-total-orders" style="height:85px;width:115px"></div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bullet-item bg-primary me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bullet-item bg-primary-100 me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xxl-6">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h5 class="mb-1">Total Batchs</h5>
+                                                <h6 class="text-700">{{time}}</h6>
+                                            </div>
+                                            <h4>{{batchs}}</h4>
+                                        </div>
+                                        <div class="d-flex justify-content-center px-4 py-6">
+                                            <div class="echart-total-orders" style="height:85px;width:115px"></div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="bullet-item bg-primary me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bullet-item bg-primary-100 me-2"></div>
+                                                <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                                                <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="echart-total-sales-chart mt-12" style="min-height:320px;width:100%">
+                    <input id="graph_data" type="text" value="{{graph_data}}" hidden="true"/>
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
+            <footer class="footer position-absolute">
+                <div class="row g-0 justify-content-between align-items-center h-100">
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
+                                class="d-none d-sm-inline-block"></span><span
+                                class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a
+                                class="mx-1" href="https://themewagon.com">Themewagon</a></p>
+                    </div>
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 text-600">v1.13.0</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script>
+            var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+            var navbarTop = document.querySelector('.navbar-top');
+            if (navbarTopStyle === 'darker') {
+                navbarTop.classList.add('navbar-darker');
+            }
+
+            var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+            var navbarVertical = document.querySelector('.navbar-vertical');
+            if (navbarVertical && navbarVerticalStyle === 'darker') {
+                navbarVertical.classList.add('navbar-darker');
+            }
+        </script>
+        <div class="support-chat-container">
+            <div class="container-fluid support-chat">
+                <div class="card bg-white">
+                    <div class="card-header d-flex flex-between-center px-4 py-3 border-bottom">
+                        <h5 class="mb-0 d-flex align-items-center gap-2">Demo widget<span
+                                class="fa-solid fa-circle text-success fs--3"></span></h5>
+                        <div class="btn-reveal-trigger">
+                            <button class="btn btn-link p-0 dropdown-toggle dropdown-caret-none transition-none d-flex"
+                                type="button" id="support-chat-dropdown" data-bs-toggle="dropdown"
+                                data-boundary="window" aria-haspopup="true" aria-expanded="false"
+                                data-bs-reference="parent"><span class="fas fa-ellipsis-h text-900"></span></button>
+                            <div class="dropdown-menu dropdown-menu-end py-2" aria-labelledby="support-chat-dropdown"><a
+                                    class="dropdown-item" href="#!">Request a callback</a><a class="dropdown-item"
+                                    href="#!">Search in chat</a><a class="dropdown-item" href="#!">Show history</a><a
+                                    class="dropdown-item" href="#!">Report to Admin</a><a
+                                    class="dropdown-item btn-support-chat" href="#!">Close Support</a></div>
+                        </div>
+                    </div>
+                    <div class="card-body chat p-0">
+                        <div class="d-flex flex-column-reverse scrollbar h-100 p-3">
+                            <div class="text-end mt-6"><a
+                                    class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3"
+                                    href="#!">
+                                    <p class="mb-0 fw-semi-bold fs--1">I need help with something</p><span
+                                        class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                                </a><a
+                                    class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3"
+                                    href="#!">
+                                    <p class="mb-0 fw-semi-bold fs--1">I can’t reorder a product I previously ordered
+                                    </p><span class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                                </a><a
+                                    class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3"
+                                    href="#!">
+                                    <p class="mb-0 fw-semi-bold fs--1">How do I place an order?</p><span
+                                        class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                                </a><a
+                                    class="false d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3"
+                                    href="#!">
+                                    <p class="mb-0 fw-semi-bold fs--1">My payment method not working</p><span
+                                        class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                                </a>
+                            </div>
+                            <div class="text-center mt-auto">
+                                <div class="avatar avatar-3xl status-online"><img
+                                        class="rounded-circle border border-3 border-white"
+                                        src="assets/img/team/30.webp" alt="" /></div>
+                                <h5 class="mt-2 mb-3">Eric</h5>
+                                <p class="text-center text-black mb-0">Ask us anything – we’ll get back to you here or
+                                    by email within 24 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center gap-2 border-top ps-3 pe-4 py-3">
+                        <div class="d-flex align-items-center flex-1 gap-3 border rounded-pill px-4">
+                            <input class="form-control outline-none border-0 flex-1 fs--1 px-0" type="text"
+                                placeholder="Write message" />
+                            <label class="btn btn-link d-flex p-0 text-500 fs--1 border-0" for="supportChatPhotos"><span
+                                    class="fa-solid fa-image"></span></label>
+                            <input class="d-none" type="file" accept="image/*" id="supportChatPhotos" />
+                            <label class="btn btn-link d-flex p-0 text-500 fs--1 border-0" for="supportChatAttachment">
+                                <span class="fa-solid fa-paperclip"></span></label>
+                            <input class="d-none" type="file" id="supportChatAttachment" />
+                        </div>
+                        <button class="btn p-0 border-0 send-btn"><span
+                                class="fa-solid fa-paper-plane fs--1"></span></button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn p-0 border border-200 btn-support-chat"><span
+                    class="fs-0 btn-text text-primary text-nowrap">Chat demo</span><span
+                    class="fa-solid fa-circle text-success fs--1 ms-2"></span><span
+                    class="fa-solid fa-chevron-down text-primary fs-1"></span></button>
+        </div>
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    {% include 'partials/_offcanvas.html' %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function getLast7Months() {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const currentDate = new Date();
+            const result = [];
+
+            for (let i = 0; i < 7; i++) {
+                const monthIndex = (currentDate.getMonth() - i + 12) % 12;
+                const monthName = months[monthIndex];
+                result.push(monthName);
+            }
+
+            return result;
+        }
+
+        const lineChart = document.getElementById('line-chart');
+        const labels = getLast7Months().reverse();
+        const graph_data = JSON.parse(document.getElementById('graph_data').value).reverse();
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First Dataset',
+                data: graph_data,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+        const config = {
+            type: 'line',
+            data: data,
+        };
+
+        new Chart(lineChart,config);
+
+
+
+        document.getElementById('select-gross-revenue-month').addEventListener('change',function(){
+            this.form.submit();
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const date = params.get('date');
+        if (date) document.getElementById('select-gross-revenue-month').value = date;
+    </script>
+    
+</body>
+
+</html>

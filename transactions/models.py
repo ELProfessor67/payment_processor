@@ -3,6 +3,7 @@ from django.db import models
 from django.db import models
 import datetime
 from math import trunc
+import re
 
 
 codes = {
@@ -50,6 +51,7 @@ codes = {
 }
 
 class Transactions(models.Model):
+    owner = models.CharField(max_length=100)
     username = models.CharField(max_length=100, verbose_name='Username',default='')
     first_name = models.CharField(max_length=100, verbose_name='First Name',default='')
     last_name = models.CharField(max_length=100, verbose_name='Last Name',default='')
@@ -86,6 +88,7 @@ class Transactions(models.Model):
     def get_codes(self):
         if self.country.lower() != 'usa':
             self.transaction_type = f"{self.transaction_type}-international"
+            # print(self.transaction_type)
         
         if codes.get(self.transaction_type):
             self.codes = codes.get(self.transaction_type)
@@ -95,6 +98,25 @@ class Transactions(models.Model):
                 "transaction_type": "7128"
             }
         return self
+    
+
+    def get_card_company(self):
+        card_number = self.card_number
+        # Define regular expressions for different card companies
+        patterns = {
+            'Visa': r'^4[0-9]{12}(?:[0-9]{3})?$',
+            'Mastercard': r'^5[1-5][0-9]{14}$',
+            "Amex": r'^3[47][0-9]{13}$',
+            "Discover": r'^6(?:011|5[0-9]{2})[0-9]{12}$',
+            "JCB": r'^(?:2131|1800|35[0-9]{3})[0-9]{11}$'
+            # Add more patterns for other card companies here
+        }
+
+        for company, pattern in patterns.items():
+            if re.match(pattern, card_number):
+                return company
+        # If no company is detected, return 'unknown'
+        return 'Amex'
 
 
 class Fees(models.Model):

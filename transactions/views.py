@@ -4,11 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from transactions.models import Transactions,Fees
 from crypto import Cryptography
 from json import loads,dumps
-from access_token.models import AccessToken
+from access_token.models import AccessToken, UserKeys
 import requests
 from utils.minusonecent import minusonecent
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
 crypto = Cryptography(KEY)
@@ -22,20 +22,15 @@ bank_access_token = '1b649ee5-0b44-485e-bea6-a53f1a1cbdd1'
 # add transactions
 @csrf_exempt
 def add_transaction(request):
-    token = request.GET.get('token')
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account = request.GET.get('account')
 
+    owner = UserKeys.objects.filter(secret=secret,key=key,account_id=account).first()
+    print(owner.username)
     # check token in empty
-    if(token == None):
-        return HttpResponse("invalid access token")
-
-
-    # checking token valid aut not
-    if(token):
-        try:
-            checktoken = AccessToken.objects.get(token=token)
-        except AccessToken.DoesNotExist:
-            return HttpResponse("invalid access token")
-
+    if(owner == None):
+        return HttpResponse("invalid credentials")
 
     
     # check request method 
@@ -45,10 +40,12 @@ def add_transaction(request):
     
     
     # get data and decrypt and to dic
-    data = request.POST['data']
-    decrypted_transaction = crypto.decrypt(data)
-    json_data = crypto.dic(decrypted_transaction)
-
+    # data = request.POST.get('data')
+    # print('data',request.POST['amount'])
+    json_data = request.POST
+    # decrypted_transaction = crypto.decrypt(data)
+    # json_data = crypto.dic(decrypted_transaction)
+   
 
     first_name = json_data['first_name']
     last_name = json_data['last_name']
@@ -69,12 +66,13 @@ def add_transaction(request):
     email = json_data['email']
     transaction_id = json_data['transaction_id']
     username = json_data['authusername']
+    ownername = owner.username
     # print('json data',json_data)
     # checking data is valid or not
     if(json_data):
 
         # add in database
-        transaction = Transactions.objects.create(username=username,transaction_id=transaction_id,email=email,cvv=cvv,exp_month=exp_month,exp_year=exp_year,card_number=card_number,transaction_type=transaction_type,payment_method=payment_method,amount=amount,phone_number=phone_number,country=country,zip_code=zip_code,state=state,first_name=first_name,last_name=last_name,company=company,address=address,city=city,)
+        transaction = Transactions.objects.create(owner = ownername,username=username,transaction_id=transaction_id,email=email,cvv=cvv,exp_month=exp_month,exp_year=exp_year,card_number=card_number,transaction_type=transaction_type,payment_method=payment_method,amount=amount,phone_number=phone_number,country=country,zip_code=zip_code,state=state,first_name=first_name,last_name=last_name,company=company,address=address,city=city,)
         print('Add Succesfully')
 
         # send encrypted data to bank pending....
@@ -131,7 +129,25 @@ def get_all_transaction(request):
 
 @login_required(login_url='/login')
 def user_show_list(request):
-    transactions = Transactions.objects.all().values()
+    owner = request.user.username
+    name = request.GET.get('name')
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    query = Q()
+    query &= Q(owner=owner)
+
+    if start and end:
+        if start == end:
+            query &= Q(created_at__date=start)
+        else:
+            query &= Q(created_at__range=(start,end))
+    
+    if name:
+        query &= Q(username__icontains=name)
+
+
+    transactions = Transactions.objects.filter(query).values()
+
     usernames_list = []
     for transaction in transactions:
         if not transaction.get('username') in usernames_list:
@@ -139,7 +155,7 @@ def user_show_list(request):
     
     list = []
     for username in usernames_list:
-        user_transation = Transactions.objects.filter(username=username).values()
+        user_transation = Transactions.objects.filter(username=username,owner=owner).values()
         list_user_transation = []
         for t in user_transation:
             list_user_transation.append(t)
@@ -156,7 +172,24 @@ def user_show_list(request):
 
 @login_required(login_url='/login')
 def user_transaction(request,username):
-    transactions = Transactions.objects.filter(username=username)
+    name = request.GET.get('name')
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    
+    query = Q()
+    query &= Q(owner=request.user.username)
+    query &= Q(username=username)
+
+    if start and end:
+        if start == end:
+            query &= Q(created_at__date=start)
+        else:
+            query &= Q(created_at__range=(start,end))
+    
+    if name:
+        query &= Q(first_name__icontains=name)
+
+    transactions = Transactions.objects.filter(query)
     temp_transactions = []
     for i in transactions:
         temp_transactions.append(i.get_codes().cut_fee())
@@ -166,8 +199,11 @@ def user_transaction(request,username):
 
     return render(request,'user_all_transaction.html',{'transactions':transactions})
 
-
+@login_required(login_url='/login')
 def fee(request):
+    if not request.user.is_superuser:
+        return redirect('/')
+    
     fee_model = Fees.objects.all().first()
     if request.method == "POST":
         percent = request.POST.get('percent')
@@ -183,4 +219,34 @@ def fee(request):
         print(flat_fee,percent)
         return redirect('/transation/fee/')
     return render(request,'customize_fee.html',{"model":fee_model})
+
+
+
+@login_required(login_url='/login')
+def all_trasnactions(request):
+    name = request.GET.get('name')
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    owner = request.user.username
+
+    query = Q()
+    query &= Q(owner=owner)
+
+    if start and end:
+        if start == end:
+            query &= Q(created_at__date=start)
+        else:
+            query &= Q(created_at__range=(start,end))
     
+    if name:
+        query &= Q(first_name__icontains=name)
+    
+    transactions = Transactions.objects.filter(query)
+
+    temp = []
+
+    for i in transactions:
+        temp.append(i.get_codes().cut_fee())
+    
+    transactions = temp
+    return render(request,'user_all_transaction.html',{'transactions':transactions})

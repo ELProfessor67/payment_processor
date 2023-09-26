@@ -6,7 +6,7 @@
     <title>Codes</title>
 </head>
 
-<body>
+{% comment %} <body>
     {% include 'partials/_navbar.html' %}
     <section class="list-section py-4 px-4">
         <div class="container-fluid">
@@ -179,6 +179,261 @@
             </div>
         </div>
     </section>
+</body> {% endcomment %}
+
+<body>
+      <!-- ===============================================-->
+  <!--    Main Content-->
+  <!-- ===============================================-->
+  <main class="main" id="top">
+    {% include "partials/_navbar.html" %}
+    <div class="content">
+      <div class="mb-9">
+        <div id="projectSummary" data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":6,"pagination":true}'>
+          
+          <div class="my-4">
+            <h1 class="fs-2 text-dark">Transaction flow</h1>
+            <img src="{% static '/images/table.jpg' %}" class="mt-4"/>
+          </div>
+          <h1 class="fs-2 text-dark mb-4 mt-4" style="margin-top: 5rem !important;">Debit full balance</h1>
+          <div class="table-responsive scrollbar">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Processing code</th>
+                        <th scope="col">Processing code description</th>
+                        <th scope="col">Balance impact</th>
+                        <th scope="col">Transaction type</th>
+                        <th scope="col">Transaction type description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left">00</td>
+                        <td style="text-align:left">PURCHASE</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>101</td>
+                        <td>PURCHASE</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">0001</td>
+                        <td style="text-align:left">REFUND PURCHASE</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>503</td>
+                        <td>PURCHASE REVERSAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">003100</td>
+                        <td style="text-align:left">INTERNATIONAL PURCHASE</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>102</td>
+                        <td>INTERNATIONAL PURCHASE</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">003101</td>
+                        <td style="text-align:left">INTERNATIONAL PURCHASE REVERSAL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>508</td>
+                        <td>INTERNATIONAL PURCHASE REV</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007000</td>
+                        <td style="text-align:left">DEBIT TRANSFER</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>304</td>
+                        <td>DEBIT TRANSFER</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007001</td>
+                        <td style="text-align:left">DEBIT REVERSAL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>392</td>
+                        <td>DEBIT REVERSAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007200</td>
+                        <td style="text-align:left">CREDIT TRANSFER</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>320</td>
+                        <td>MONEY ORDER</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007201</td>
+                        <td style="text-align:left">CREDIT REVERSAL</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>391</td>
+                        <td>CREDIT REVERSAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007503</td>
+                        <td style="text-align:left">DEPOSIT BY BILL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>341</td>
+                        <td>DEPOSIT BY BILL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007700</td>
+                        <td style="text-align:left">ZERO DEBIT TRANSFER</td>
+                        <td style="text-align:left"><strong>0</strong> (no impact, zero balance)*</td>
+                        <td>330</td>
+                        <td>ZERO DEBIT TRANSFER</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">007701</td>
+                        <td style="text-align:left">TRANSFER REVERSION ZERO DEBIT</td>
+                        <td style="text-align:left"><strong>0</strong> (no impact, zero balance)*</td>
+                        <td>331</td>
+                        <td>TRANSFER REVERSION ZERO DEBIT</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">01</td>
+                        <td style="text-align:left">NATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>123</td>
+                        <td>WITHDRAWAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">01</td>
+                        <td style="text-align:left">NATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>604</td>
+                        <td>WITHDRAWAL FEE</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">0101</td>
+                        <td style="text-align:left">REVERSE NATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>512</td>
+                        <td>REVERSAL WITHDRAWAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">0101</td>
+                        <td style="text-align:left">REVERSE NATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>9467</td>
+                        <td>REVERSAL FEE WITHDRAWAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">013100</td>
+                        <td style="text-align:left">INTERNATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>124</td>
+                        <td>INTERNATIONAL WITHDRAWAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">013100</td>
+                        <td style="text-align:left">INTERNATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>-1</strong> (debit, cashout)</td>
+                        <td>604</td>
+                        <td>WITHDRAWAL FEE</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">013101</td>
+                        <td style="text-align:left">REVERSAL INTERNATIONAL WITHDRAWAL</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>510</td>
+                        <td>REVERSAL INTERNATIONAL WITHDRAWAL</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">20</td>
+                        <td style="text-align:left">CREDIT VOUCHER</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>203</td>
+                        <td>CREDIT VOUCHER</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">903002</td>
+                        <td style="text-align:left">UTILITIES PAYMENT</td>
+                        <td style="text-align:left"><strong>1</strong> (credit, cashin)</td>
+                        <td>917</td>
+                        <td>UTILITIES PAYMENT</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left">904002</td>
+                        <td style="text-align:left">UTILITIES PAYMENT REVERSAL</td>
+                        <td style="text-align:left"><strong>-1 </strong>(debit, cashout)</td>
+                        <td>541</td>
+                        <td>UTILITIES PAYMENT STATE</td>
+                    </tr>
+                </tbody>
+
+            </table>
+          </div>
+        </div>
+      </div>
+      <footer class="footer position-absolute">
+        <div class="row g-0 justify-content-between align-items-center h-100">
+          <div class="col-12 col-sm-auto text-center">
+            <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com">Themewagon</a></p>
+          </div>
+          <div class="col-12 col-sm-auto text-center">
+            <p class="mb-0 text-600">v1.13.0</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+      var navbarTop = document.querySelector('.navbar-top');
+      if (navbarTopStyle === 'darker') {
+        navbarTop.classList.add('navbar-darker');
+      }
+
+      var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+      var navbarVertical = document.querySelector('.navbar-vertical');
+      if (navbarVertical && navbarVerticalStyle === 'darker') {
+        navbarVertical.classList.add('navbar-darker');
+      }
+    </script>
+    <div class="support-chat-container">
+      <div class="container-fluid support-chat">
+        <div class="card bg-white">
+          <div class="card-header d-flex flex-between-center px-4 py-3 border-bottom">
+            <h5 class="mb-0 d-flex align-items-center gap-2">Demo widget<span class="fa-solid fa-circle text-success fs--3"></span></h5>
+            <div class="btn-reveal-trigger">
+              <button class="btn btn-link p-0 dropdown-toggle dropdown-caret-none transition-none d-flex" type="button" id="support-chat-dropdown" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h text-900"></span></button>
+              <div class="dropdown-menu dropdown-menu-end py-2" aria-labelledby="support-chat-dropdown"><a class="dropdown-item" href="#!">Request a callback</a><a class="dropdown-item" href="#!">Search in chat</a><a class="dropdown-item" href="#!">Show history</a><a class="dropdown-item" href="#!">Report to Admin</a><a class="dropdown-item btn-support-chat" href="#!">Close Support</a></div>
+            </div>
+          </div>
+          <div class="card-body chat p-0">
+            <div class="d-flex flex-column-reverse scrollbar h-100 p-3">
+              <div class="text-end mt-6"><a class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3" href="#!">
+                  <p class="mb-0 fw-semi-bold fs--1">I need help with something</p><span class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                </a><a class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3" href="#!">
+                  <p class="mb-0 fw-semi-bold fs--1">I can’t reorder a product I previously ordered</p><span class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                </a><a class="mb-2 d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3" href="#!">
+                  <p class="mb-0 fw-semi-bold fs--1">How do I place an order?</p><span class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                </a><a class="false d-inline-flex align-items-center text-decoration-none text-1100 hover-bg-soft rounded-pill border border-primary py-2 ps-4 pe-3" href="#!">
+                  <p class="mb-0 fw-semi-bold fs--1">My payment method not working</p><span class="fa-solid fa-paper-plane text-primary fs--1 ms-3"></span>
+                </a>
+              </div>
+              <div class="text-center mt-auto">
+                <div class="avatar avatar-3xl status-online"><img class="rounded-circle border border-3 border-white" src="../../assets/img/team/30.webp" alt="" /></div>
+                <h5 class="mt-2 mb-3">Eric</h5>
+                <p class="text-center text-black mb-0">Ask us anything – we’ll get back to you here or by email within 24 hours.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center gap-2 border-top ps-3 pe-4 py-3">
+            <div class="d-flex align-items-center flex-1 gap-3 border rounded-pill px-4">
+              <input class="form-control outline-none border-0 flex-1 fs--1 px-0" type="text" placeholder="Write message" />
+              <label class="btn btn-link d-flex p-0 text-500 fs--1 border-0" for="supportChatPhotos"><span class="fa-solid fa-image"></span></label>
+              <input class="d-none" type="file" accept="image/*" id="supportChatPhotos" />
+              <label class="btn btn-link d-flex p-0 text-500 fs--1 border-0" for="supportChatAttachment"> <span class="fa-solid fa-paperclip"></span></label>
+              <input class="d-none" type="file" id="supportChatAttachment" />
+            </div>
+            <button class="btn p-0 border-0 send-btn"><span class="fa-solid fa-paper-plane fs--1"></span></button>
+          </div>
+        </div>
+      </div>
+      <button class="btn p-0 border border-200 btn-support-chat"><span class="fs-0 btn-text text-primary text-nowrap">Chat demo</span><span class="fa-solid fa-circle text-success fs--1 ms-2"></span><span class="fa-solid fa-chevron-down text-primary fs-1"></span></button>
+    </div>
+  </main>
+  <!-- ===============================================-->
+  <!--    End of Main Content-->
+  <!-- ===============================================-->
+
+  {% include "partials/_offcanvas.html" %}
 </body>
 
 </html>
