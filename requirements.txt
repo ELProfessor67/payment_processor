@@ -4,3 +4,4 @@ Requests
 whitenoise
 Brotli
 gunicorn
+django-cors-headers
