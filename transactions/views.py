@@ -30,12 +30,12 @@ def add_transaction(request):
     print(owner.username)
     # check token in empty
     if(owner == None):
-        return HttpResponse("invalid credentials")
+        return HttpResponse("invalid credentials",status=401)
 
     
     # check request method 
     if(request.method != "POST"):
-        return HttpResponse(f"can't {request.method} /transaction/add")
+        return HttpResponse(f"can't {request.method} /transaction/add",status=404)
 
     
     
@@ -77,7 +77,7 @@ def add_transaction(request):
 
         # send encrypted data to bank pending....
         # bank code goes here
-
+        print(amount)
         paylaod = {
             "first_name": first_name,
             "last_name": last_name,
@@ -114,7 +114,7 @@ def add_transaction(request):
             print(e)
         
 
-    return HttpResponse('Add Succesfully')
+    return HttpResponse('Add Succesfully',status=201)
 
 
 

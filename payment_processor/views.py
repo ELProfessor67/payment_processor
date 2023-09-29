@@ -14,6 +14,7 @@ from json import dumps
 # from utils.mailer import mailer
 from django.conf import settings
 from django.core.mail import send_mail as send_email
+from access_token.models import UserKeys
 
 def login(request):
 
@@ -149,7 +150,7 @@ def dashboard(request):
     if date:
         greeting['time'] = " ".join(date.split('_'))
     else:
-        greeting['time'] = 'today'
+        greeting['time'] = 'All Data'
 
 
 
@@ -224,4 +225,19 @@ def send_mail(request):
     send_email( subject, message, email_from, recipient_list )
     return redirect('/my/team/')
     
+
+
+
+def authorize(request):
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account_id = request.GET.get('account')
+
+    user = UserKeys.objects.filter(secret=secret,key=key,account_id=account_id).values().first()
+
+    if user is not None:
+        return HttpResponse(dumps(user),status=200)
     
+    print('user',user)
+    
+    return HttpResponse('unauthrized user',status=401)

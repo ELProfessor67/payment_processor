@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="table-responsive scrollbar">
-            <table class="table custom-table mt-2  table-hover">
+            <table class="table custom-table mt-2">
               <thead class="bg-info text-white fs-1 py-4">
                 <tr>
                   <th scope="col">#</th>
@@ -75,29 +75,28 @@
              <tbody>
               {% for transaction in transactions %}
                   <tr>
-                      <th scope="row fs-6">{{forloop.counter}}</th>
-  
-                      <th scope="row fs-6">{{transaction.first_name}}</th>
-                      <th scope="row fs-6">{{transaction.last_name}}</th>
-                      <th scope="row fs-6">{{transaction.company}}</th>
-                      <th scope="row fs-6">{{transaction.address}}</th>
-                      <th scope="row fs-6">{{transaction.city}}</th>
-                      <th scope="row fs-6">{{transaction.state}}</th>
-                      <th scope="row fs-6">{{transaction.zip_code}}</th>
-                      <th scope="row fs-6">{{transaction.country}}</th>
-                      <th scope="row fs-6">{{transaction.phone_number}}</th>
-                      <th scope="row fs-6">{{transaction.amount}} $</th>
-                      <th scope="row fs-6">{{transaction.g_fee}} $</th>
-                      <th scope="row fs-6">{{transaction.p_fee}} $</th>
-                      <th scope="row fs-6">{{transaction.payment_method}}</th>
-                      <th scope="row fs-6">{{transaction.codes.transaction_type}}</th>
-                      <th scope="row fs-6">{{transaction.codes.code}}</th>
-                      <th scope="row fs-6">XXXX XXXX XXXX {{transaction.card_number|slice:"12:16"}}</th>
-                      <th scope="row fs-6">{{transaction.exp_year}}</th>
-                      <th scope="row fs-6">{{transaction.exp_month}}</th>
-                      <th scope="row fs-6">{{transaction.cvv}}</th>
-                      <th scope="row fs-6">{{transaction.email}}</th>
-                      <th scope="row fs-6">{{transaction.created_at}}</th>
+                      <th scope="row">{{forloop.counter}}</th>
+                      <th>{{transaction.first_name}}</th>
+                      <th>{{transaction.last_name}}</th>
+                      <th>{{transaction.company}}</th>
+                      <th>{{transaction.address}}</th>
+                      <th>{{transaction.city}}</th>
+                      <th>{{transaction.state}}</th>
+                      <th>{{transaction.zip_code}}</th>
+                      <th>{{transaction.country}}</th>
+                      <th>{{transaction.phone_number}}</th>
+                      <th>{{transaction.amount}} $</th>
+                      <th>{{transaction.g_fee}} $</th>
+                      <th>{{transaction.p_fee}} $</th>
+                      <th>{{transaction.payment_method}}</th>
+                      <th>{{transaction.codes.transaction_type}}</th>
+                      <th>{{transaction.codes.code}}</th>
+                      <th>XXXX XXXX XXXX {{transaction.card_number|slice:"12:16"}}</th>
+                      <th>{{transaction.exp_year}}</th>
+                      <th>{{transaction.exp_month}}</th>
+                      <th>{{transaction.cvv}}</th>
+                      <th>{{transaction.email}}</th>
+                      <th>{{transaction.created_at}}</th>
                   </tr>
               {% endfor %}
               </tbody>
