@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h2 style="color: red; font-size: 2.5rem; text-align: center;">Transaction Reports</h2>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0; margin-bottom: 2rem;">
+            <h1 style="margin: 0;">Total Transactions : </h1>
+            <h1 style="margin: 0;"> 90$</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
+            <h1 style="margin: 0;">Visa : </h1>
+            <h1 style="margin: 0;"> 10$</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
+            <h1 style="margin: 0;">Visa : </h1>
+            <h1 style="margin: 0;"> 10$</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
+            <h1 style="margin: 0;">Visa : </h1>
+            <h1 style="margin: 0;"> 10$</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
+            <h1 style="margin: 0;">Visa : </h1>
+            <h1 style="margin: 0;"> 10$</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
+            <h1 style="margin: 0;">Visa : </h1>
+            <h1 style="margin: 0;"> 10$</h1>
+        </div>
+
+
+        <table border="1" style="border-collapse: collapse; font-size: .9rem; margin-top: 2rem;">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Aviable Amount</th>
+                <th scope="col">Transaction Type</th>
+                <th scope="col">Status Code</th>
+                <th scope="col">Card Number</th>
+                <th scope="col">Exp Year</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+           <tbody>
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <th scope="row">{{transaction.transaction_id}}</th>
+                    <th>{{transaction.amount}} $</th>
+                    <th>{{transaction.codes.transaction_type}}</th>
+                    <th>{{transaction.codes.code}}</th>
+                    <th>XXXX XXXX XXXX {{transaction.card_number|slice:"12:16"}}</th>
+                    <th>{{transaction.created_at}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -75,7 +75,8 @@
              <tbody>
               {% for transaction in transactions %}
                   <tr>
-                      <th scope="row">{{forloop.counter}}</th>
+                      {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
+                      <th scope="row">{{transaction.transaction_id}}</th>
                       <th>{{transaction.first_name}}</th>
                       <th>{{transaction.last_name}}</th>
                       <th>{{transaction.company}}</th>

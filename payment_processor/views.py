@@ -15,6 +15,8 @@ from json import dumps
 from django.conf import settings
 from django.core.mail import send_mail as send_email
 from access_token.models import UserKeys
+from utils.generatehtml import generatehtml
+from ironpdf import ChromePdfRenderer
 
 def login(request):
 
@@ -241,3 +243,57 @@ def authorize(request):
     print('user',user)
     
     return HttpResponse('unauthrized user',status=401)
+
+
+def generate_report(request):
+    username = request.GET.get('username');
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account_id = request.GET.get('account')
+
+    if not username and not secret and not key and not account_id:
+        return HttpResponse('username , secret,key,account is required',status=401)
+    
+    user = UserKeys.objects.filter(secret=secret,key=key,account_id=account_id).first()
+    print(user.username)
+    if user is None:
+        return HttpResponse('invalid credential',status=201)
+    
+    transactions = Transactions.objects.filter(owner = user.username,username=username)
+    total = sum([int(transaction.amount) for transaction in transactions])
+    all_card = []
+    for i in transactions:
+        if not i.get_card_company() in all_card:
+            all_card.append(i.get_card_company())
+
+    card_data = {}
+    for i in all_card:
+        temp_transaction = []
+        for j in transactions:
+            if j.get_card_company() == i:
+                temp_transaction.append(j)
+        total_i = sum([int(transaction.amount) for transaction in temp_transaction])
+        card_data[i] = total_i
+    
+    print(card_data)
+
+    temp = []
+
+    for i in transactions:
+        tra = i.get_codes()
+        temp.append(tra)
+
+    transactions = temp
+
+    html_code = generatehtml(transactions,total,card_data)
+
+    renderer = ChromePdfRenderer()
+    pdf = renderer.RenderHtmlAsPdf(html_code)
+    pdf.SaveAs('output.pdf')
+    
+
+    print(all_card)
+    return HttpResponse(html_code)
+    
+
+    

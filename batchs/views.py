@@ -23,17 +23,18 @@ def create_batch(request):
     secret = request.GET.get('secret')
     key = request.GET.get('key')
     account = request.GET.get('account')
+    print('aaye','aaaaaa yyaaaayayyayayay')
 
     owner = UserKeys.objects.filter(secret=secret,key=key,account_id=account).first()
     print(owner.username)
     # check token in empty
     if(owner == None):
-        return HttpResponse("invalid credentials")
+        return HttpResponse("invalid credentials",status=401)
 
     
     # check request method 
     if(request.method != "POST"):
-        return HttpResponse(f"can't {request.method} /batch/create")
+        return HttpResponse(f"can't {request.method} /batch/create",status=404)
 
     
     
@@ -52,11 +53,13 @@ def create_batch(request):
     batch_id = json_data.get('batch_id')
     # print(status,name)
     # checking data is valid or not
+    print(json_data)
     if(json_data):
 
         # add in database
         batch = Batchs(owner=owner.username,batch_id=batch_id,name=name,desciption=desciption,username=username,transactions=transactions,status=status)
         batch.save()
+        print(batch)
         print('Add Succesfully')
 
         # send encrypted data to bank pending....
@@ -84,7 +87,10 @@ def create_batch(request):
         except Exception as e:
             print(e)
 
-    return HttpResponse('Add Succesfully')
+        return HttpResponse('Add Succesfully',status=201)
+    
+    return HttpResponse('Invalid details',status=404)
+    
 
 @login_required(login_url='/login')
 def batch_list(request):
@@ -116,6 +122,7 @@ def batch_list(request):
         credit = 0
         sales = 0
         for id in trasnsactions_ids:
+            print(id)
             transaction = Transactions.objects.filter(transaction_id=id).first()
             if transaction.transaction_type == 'refund':
                 all_credit_trsansaction_card.append(transaction.get_card_company())
