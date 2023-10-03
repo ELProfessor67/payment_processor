@@ -16,7 +16,7 @@ from django.conf import settings
 from django.core.mail import send_mail as send_email
 from access_token.models import UserKeys
 from utils.generatehtml import generatehtml
-from ironpdf import ChromePdfRenderer
+# from ironpdf import ChromePdfRenderer
 
 def login(request):
 
@@ -286,10 +286,6 @@ def generate_report(request):
     transactions = temp
 
     html_code = generatehtml(transactions,total,card_data)
-
-    renderer = ChromePdfRenderer()
-    pdf = renderer.RenderHtmlAsPdf(html_code)
-    pdf.SaveAs('output.pdf')
     
 
     print(all_card)
