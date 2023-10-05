@@ -387,7 +387,8 @@ def generate_report(request):
             total_fee -= i.p_fee
             total_fee -= i.g_fee
     
-    total_process = total+refund_total
+    total_fee = round(total_fee,2)
+    total_process = total+total_fee
 
 
 
