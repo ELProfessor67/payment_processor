@@ -75,11 +75,17 @@ class Transactions(models.Model):
 
     def cut_fee(self):
         self.g_fee = float(self.amount)/100
-        fee_model = Fees.objects.all().first()
+        fee_model = Fees.objects.filter(username=self.owner).first()
+        if fee_model == None:
+            # print(fee_model)
+            fee_model = Fees(percent=2.5,flat_fee=0.5)
+            # fee_model['percent'] = 2.5
+            # fee_model['flat_fee'] = 0.5
+            
         percent = (float(self.amount)*float(fee_model.percent))/100
         fee = round(((percent*100)-float(fee_model.flat_fee))/100)
         self.p_fee = fee
-        print(self.amount,self.p_fee,self.g_fee)
+        # print(self.amount,self.p_fee,self.g_fee)
         self.amount = trunc(float(self.amount)-(self.p_fee+self.g_fee))
         return self
 
@@ -123,4 +129,5 @@ class Fees(models.Model):
     
     percent = models.FloatField()
     flat_fee = models.FloatField()
+    username = models.CharField(max_length=200, default='')
 

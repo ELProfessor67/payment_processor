@@ -9,6 +9,7 @@ import requests
 from utils.minusonecent import minusonecent
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
 crypto = Cryptography(KEY)
@@ -204,21 +205,47 @@ def fee(request):
     if not request.user.is_superuser:
         return redirect('/')
     
-    fee_model = Fees.objects.all().first()
+    username = request.GET.get('username')
+    users = User.objects.all()
+
+    temp = []
+    for i in users:
+        print(i.is_superuser)
+        if 'team-' not in i.last_name:
+            if not i.is_superuser:
+                temp.append(i)
+    
+    users = temp
+
+    fee_model = Fees.objects.filter(username=username).first()
+    if fee_model == None:
+        fee_model = {}
+        fee_model['percent'] = 2.5
+        fee_model['flat_fee'] = 0.5
+
     if request.method == "POST":
         percent = request.POST.get('percent')
         flat_fee = request.POST.get('flat_fee')
-        if fee_model is None:
-            fee_model = Fees.objects.create(percent=percent,flat_fee=flat_fee)
+        username = request.POST.get('username')
+        # if fee_model is None:
+        #     fee_model = Fees.objects.create(percent=percent,flat_fee=flat_fee)
+        # else:
+        #     fee_model.percent = percent
+        #     fee_model.flat_fee = flat_fee
+        #     fee_model.save()
+        # print(fee_model)
+        # print(flat_fee,percent)
+        user = Fees.objects.filter(username=username).first()
+        if user != None:
+            user.flat_fee = flat_fee
+            user.percent = percent
+            user.save()
         else:
-            fee_model.percent = percent
-            fee_model.flat_fee = flat_fee
-            fee_model.save()
+            Fees.objects.create(percent=percent,flat_fee=flat_fee,username=username)
 
-        print(fee_model)
-        print(flat_fee,percent)
-        return redirect('/transation/fee/')
-    return render(request,'customize_fee.html',{"model":fee_model})
+        return redirect(f"/transation/fee/?username={username}")
+    print(fee_model)
+    return render(request,'customize_fee.html',{"model":fee_model,'users':users,'username':username})
 
 
 

@@ -43,6 +43,15 @@
       <form method="post">
         {% csrf_token %}
         <div class="mb-3">
+          <label for="percent" class="form-label">username</label>
+          <select name="username"  class="form-control" id="username">
+            {% for user in users %}
+              <option value="{{user}}">{{user}} - {{user.first_name}} {{user.last_name}}</option>
+            {% endfor %}
+          </select>
+          
+        </div>
+        <div class="mb-3">
           <label for="percent" class="form-label">Percent</label>
           <input type="text" class="form-control" id="percent" name="percent" value="{{model.percent}}" required>
         </div>
@@ -128,5 +137,15 @@ navbarVertical.classList.add('navbar-darker');
 <!-- ===============================================-->
 
 {% include "partials/_offcanvas.html" %}
+<script>
+  const usernameEle = document.getElementById('username');
+  const usernameValue = new URLSearchParams(window.location.search).get('username');
+  if (usernameValue) usernameEle.value = usernameValue;
+  usernameEle.addEventListener('change',function(e){
+    const origin = window.location.origin;
+    const url = `${origin}/transation/fee/?username=${e.target.value}`;
+    window.location.href = url;
+  });
+</script>
 </body>
 </html>

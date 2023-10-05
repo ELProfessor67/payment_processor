@@ -95,7 +95,7 @@
                       <th>XXXX XXXX XXXX {{transaction.card_number|slice:"12:16"}}</th>
                       <th>{{transaction.exp_year}}</th>
                       <th>{{transaction.exp_month}}</th>
-                      <th>{{transaction.cvv}}</th>
+                      <th>XX{{transaction.cvv|slice:"2:4"}}</th>
                       <th>{{transaction.email}}</th>
                       <th>{{transaction.created_at}}</th>
                   </tr>

@@ -17,7 +17,12 @@ from django.core.mail import send_mail as send_email
 from access_token.models import UserKeys
 from utils.generatehtml import generatehtml
 # from ironpdf import ChromePdfRenderer
+import requests
+import base64
 
+
+# html_to_pdf_url = "http://localhost:4000/html-to-pdf"
+html_to_pdf_url = "https://auto-batch-create.onrender.com/html-to-pdf"
 def login(request):
 
     if request.method == 'POST':
@@ -246,12 +251,11 @@ def authorize(request):
 
 
 def generate_report(request):
-    username = request.GET.get('username');
     secret = request.GET.get('secret')
     key = request.GET.get('key')
     account_id = request.GET.get('account')
 
-    if not username and not secret and not key and not account_id:
+    if not secret and not key and not account_id:
         return HttpResponse('username , secret,key,account is required',status=401)
     
     user = UserKeys.objects.filter(secret=secret,key=key,account_id=account_id).first()
@@ -259,37 +263,153 @@ def generate_report(request):
     if user is None:
         return HttpResponse('invalid credential',status=201)
     
-    transactions = Transactions.objects.filter(owner = user.username,username=username)
+    transactions = Transactions.objects.filter(owner = user.username)
+    transactions_refund = Transactions.objects.filter(owner = user.username,transaction_type='refund')
+    refund_total = sum([int(transaction.amount) for transaction in transactions_refund])
+
     total = sum([int(transaction.amount) for transaction in transactions])
+    total_adjustment = 0.00
+
+
+    dates = []
+    usernames = []
     all_card = []
     for i in transactions:
+        date_only = i.created_at.date()
+        formatted_date = date_only.strftime("%Y-%m-%d")
+        if formatted_date not in dates:
+            dates.append(formatted_date)
+        
+        if i.username not in usernames:
+            usernames.append(i.username)
+
         if not i.get_card_company() in all_card:
             all_card.append(i.get_card_company())
 
-    card_data = {}
-    for i in all_card:
-        temp_transaction = []
-        for j in transactions:
-            if j.get_card_company() == i:
-                temp_transaction.append(j)
-        total_i = sum([int(transaction.amount) for transaction in temp_transaction])
-        card_data[i] = total_i
+    # summary_day by day 
+    summary_day = []
     
-    print(card_data)
+    for i in dates:
+        transaction_by_day = Transactions.objects.filter(owner = user.username,created_at__date=i)
+        transaction_by_day_refund = Transactions.objects.filter(owner = user.username,created_at__date=i,transaction_type='refund')
+        refund_total_day = sum([int(transaction.amount) for transaction in transaction_by_day_refund])
+        total_day = sum([int(transaction.amount) for transaction in transaction_by_day])
+
+        temp = []
+        for j in transaction_by_day:
+            tra = j.get_codes().cut_fee()
+            temp.append(tra)
+        
+        total_fee_day = 0
+        for j in temp:
+            if j.p_fee and j.g_fee:
+                total_fee_day -= j.p_fee
+                total_fee_day -= j.g_fee
+        
+        total_processor_day = total_day+total_fee_day
+        summary_day.append({
+            "date": i,
+            "amount": total_day,
+            "refund": refund_total_day,
+            "adjustment": 0.00,
+            "fees": total_fee_day,
+            "total": total_processor_day
+        })
+    
+    
+        
+    # summary by usermame
+    summary_username = []
+    for i in usernames:
+        transaction_by_username = Transactions.objects.filter(owner = user.username,username=i)
+        transaction_by_username_refund = Transactions.objects.filter(owner = user.username,username=i,transaction_type='refund')
+        refund_total_username = sum([int(transaction.amount) for transaction in transaction_by_username_refund])
+        total_username = sum([int(transaction.amount) for transaction in transaction_by_username])
+
+        temp = []
+        for j in transaction_by_username:
+            tra = j.get_codes().cut_fee()
+            temp.append(tra)
+        
+        total_fee_username = 0
+        for j in temp:
+            if j.p_fee and j.g_fee:
+                total_fee_day -= j.p_fee
+                total_fee_day -= j.g_fee
+        
+        total_processor_username = total_username+total_fee_username
+        summary_username.append({
+            "username": i,
+            "amount": total_username,
+            "refund": refund_total_username,
+            "adjustment": 0.00,
+            "fees": total_fee_username,
+            "total": total_processor_username
+        })
+    
+    # print(summary_username)
+         
+
+    card_data = []
+    for i in all_card:
+        temp_transaction_all = []
+        for j in transactions:
+            if j.get_card_company() == i and j.transaction_type != 'refund':
+                temp_transaction_all.append(j)
+        
+        temp_transaction_all_refund = []
+        for j in transactions:
+            if j.get_card_company() == i and j.transaction_type == 'refund':
+                temp_transaction_all_refund.append(j)
+        
+        sales_card_total = sum([int(transaction.amount) for transaction in temp_transaction_all])
+        total_card_refund = sum([int(transaction.amount) for transaction in temp_transaction_all_refund])
+
+        total_card = total_card_refund+sales_card_total
+        card_data.append({
+            "type": i,
+            "sales": sales_card_total,
+            "credit": total_card_refund,
+            "total": total_card
+        })
 
     temp = []
 
     for i in transactions:
-        tra = i.get_codes()
+        tra = i.get_codes().cut_fee()
         temp.append(tra)
 
     transactions = temp
 
-    html_code = generatehtml(transactions,total,card_data)
+    total_fee = 0
+    for i in transactions:
+        if i.p_fee and i.g_fee:
+            total_fee -= i.p_fee
+            total_fee -= i.g_fee
     
+    total_process = total+refund_total
 
-    print(all_card)
-    return HttpResponse(html_code)
-    
+
+
+    html_code = generatehtml(total,refund_total,total_adjustment,total_fee,total_process,summary_day,summary_username,card_data)
+    try:
+        res = requests.post(html_to_pdf_url,data={"htmlCode":html_code})
+        # Decode Base64 to binary
+        if res.status_code != 200:
+            return HttpResponse('something wants wrong')
+
+        binary_pdf_data = base64.b64decode(res.text)
+        # binary_pdf_data.seek(0)
+        response = HttpResponse(binary_pdf_data, content_type='application/pdf')
+        response['Content-Disposition'] = f"attachment; filename=\"{user.username}-report.pdf\""
+        return response
+        # path = 'static/assets/pdfs'
+        # file_name = f"{path}/{user.username}.pdf"
+        # Save the binary data as a PDF file
+        # with open(file_name, "wb") as pdf_file:
+            # pdf_file.write(binary_pdf_data)
+        # return HttpResponse(res)
+    except Exception as e:
+        return HttpResponse(e)
 
     

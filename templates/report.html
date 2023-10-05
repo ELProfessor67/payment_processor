@@ -1,62 +1,180 @@
 <!DOCTYPE html>
-
-<html>
+<html style="padding: 0%; margin: 0%; box-sizing: border-box; width: 100vw;">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        </style>
     </head>
-    <body>
-        <h2 style="color: red; font-size: 2.5rem; text-align: center;">Transaction Reports</h2>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0; margin-bottom: 2rem;">
-            <h1 style="margin: 0;">Total Transactions : </h1>
-            <h1 style="margin: 0;"> 90$</h1>
+    <body style="margin: 0%; padding: 0%; box-sizing: border-box; width: 100vw; overflow-x: hidden;">
+        <div style="padding: 1rem;">
+            <div style="width: 100vw;">
+                <div style="width: 100vw; height: 1rem; background-color: #cfcfcf;"></div>
+                <h1 style="padding: .5rem; padding-left: 1rem; background-color: #cfcfcf; width: 35%; margin: 0%; color: white;">Your Card Processing Statement</h1>
+            </div>
+            
+            <div style="padding: 0 1rem;">
+                <div style="display: flex; align-items: center;">
+                    <h1 style="display: inline-block; padding: .2rem; background-color: #cfcfcf; color: white; font-size: 1.2rem; margin: 0%; margin-top: 3rem;">Summary</h1>
+                    <h1 style="display: inline-block; padding: .2rem; color: #cfcfcf; font-size: 1rem; margin: 0%; margin-top: 3rem;">An overview of account activity for the statement period.</h1>
+                </div>
+                <div style="width: 50rem;">
+                    <div style="display: flex; margin: .4rem 0; justify-content: space-between; align-items: center; padding: .2rem; background-color: #d8eddd;">
+                        <h3 style="margin: 0%;">Total Amount Submitted</h3>
+                        <p style="margin: 0%;">$4,125,041.21</p>
+                    </div>
+                    <div style="display: flex; margin: .4rem 0; justify-content: space-between; align-items: center; padding: .2rem; background-color: #f1e1ee;">
+                        <h3 style="margin: 0%;">Chargebacks/Reversals</h3>
+                        <p style="margin: 0%;">$4,125,041.21</p>
+                    </div>
+                    <div style="display: flex; margin: .4rem 0; justify-content: space-between; align-items: center; padding: .2rem; background-color: #dad4e9;">
+                        <h3 style="margin: 0%;">Adjustments</h3>
+                        <p style="margin: 0%;">$4,125,041.21</p>
+                    </div>
+                    <div style="display: flex; margin: .4rem 0; justify-content: space-between; align-items: center; padding: .2rem; background-color: #d4def1;">
+                        <h3 style="margin: 0%;">Fees</h3>
+                        <p style="margin: 0%;">$4,125,041.21</p>
+                    </div>
+                    <div style="display: flex; margin: .4rem 0; justify-content: space-between; align-items: center; padding: .2rem; background-color: #fbffb8">
+                        <h3 style="margin: 0%; font-size: 1.6rem;">Total Amount Processed</h3>
+                        <p style="margin: 0%; font-size: 1.2rem;">$4,125,041.21</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
-            <h1 style="margin: 0;">Visa : </h1>
-            <h1 style="margin: 0;"> 10$</h1>
-        </div>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
-            <h1 style="margin: 0;">Visa : </h1>
-            <h1 style="margin: 0;"> 10$</h1>
-        </div>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
-            <h1 style="margin: 0;">Visa : </h1>
-            <h1 style="margin: 0;"> 10$</h1>
-        </div>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
-            <h1 style="margin: 0;">Visa : </h1>
-            <h1 style="margin: 0;"> 10$</h1>
-        </div>
-        <div style="display: flex; justify-content: flex-start; align-items: center; margin: .5rem 0;">
-            <h1 style="margin: 0;">Visa : </h1>
-            <h1 style="margin: 0;"> 10$</h1>
+
+        <div style="margin-top: 4rem; padding:1rem;">
+            <div style="width: 100vw;">
+                <div style="width: 100vw; height: .5rem; background-color: #cfcfcf;"></div>
+                <h1 style="  padding: .1rem; text-align: center;  padding-left: 1rem; background-color: #cfcfcf; width: 35%; margin: 0%; color: white;">Summary By Day</h1>
+            </div>
+            
+            <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid black;">
+                        <th style="background-color: #f7c6c7;">Date Submitted</th>
+                        <th style="background-color: #d4def1;">Submitted Amount</th>
+                        <th style="background-color: #dad4e9;">Chargebacks/Reversals </th>
+                        <th style="background-color: #f1e1ee;">Adjustments</th>
+                        <th style="background-color: #fbffb8;">Fees</th>
+                        <th style="background-color: #d8eddd;">Amount Processed</th>
+                    </tr>
+                </thead>
+                <body>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                </body>
+            </table>
         </div>
 
 
-        <table border="1" style="border-collapse: collapse; font-size: .9rem; margin-top: 2rem;">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Aviable Amount</th>
-                <th scope="col">Transaction Type</th>
-                <th scope="col">Status Code</th>
-                <th scope="col">Card Number</th>
-                <th scope="col">Exp Year</th>
-                <th scope="col">Date</th>
-              </tr>
-            </thead>
-           <tbody>
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <th scope="row">{{transaction.transaction_id}}</th>
-                    <th>{{transaction.amount}} $</th>
-                    <th>{{transaction.codes.transaction_type}}</th>
-                    <th>{{transaction.codes.code}}</th>
-                    <th>XXXX XXXX XXXX {{transaction.card_number|slice:"12:16"}}</th>
-                    <th>{{transaction.created_at}}</th>
-                </tr>
-            </tbody>
-        </table>
+        <div style="margin-top: 4rem; padding:1rem;">
+            <div style="width: 100vw;">
+                <div style="width: 100vw; height: .5rem; background-color: #cfcfcf;"></div>
+                <h1 style="  padding: .1rem; text-align: center;  padding-left: 1rem; background-color: #cfcfcf; width: 35%; margin: 0%; color: white;">Summary By Location</h1>
+            </div>
+            
+            <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid black;">
+                        <th style="background-color: #f7c6c7;">Merchant Username</th>
+                        <th style="background-color: #d4def1;">Submitted Amount</th>
+                        <th style="background-color: #dad4e9;">Chargebacks/Reversals </th>
+                        <th style="background-color: #f1e1ee;">Adjustments</th>
+                        <th style="background-color: #fbffb8;">Fees</th>
+                        <th style="background-color: #d8eddd;">Amount Processed</th>
+                    </tr>
+                </thead>
+                <body>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">12/01/20 </th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #f1e1ee; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #fbffb8; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                </body>
+            </table>
+        </div>
+
+
+        <div style="margin-top: 4rem; padding:1rem;">
+            <div style="width: 100vw;">
+                <div style="width: 100vw; height: .5rem; background-color: rgb(11, 138, 0);"></div>
+                <h1 style="  padding: .1rem; text-align: center;  padding-left: 1rem; background-color: rgb(11, 138, 0); width: 35%; margin: 0%; color: white;">Summary By Card Type</h1>
+            </div>
+            
+            <table style="margin-top: 1rem; width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid black;">
+                        <th style="background-color: #f7c6c7;">Card Type</th>
+                        <th style="background-color: #d4def1;">Total Gross Sales You Submitted </th>
+                        <th style="background-color: #dad4e9;">Refunds </th>
+                        <th style="background-color: #f1e1ee;">Total Amount You Submitted</th>
+                    </tr>
+                </thead>
+                <body>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">Visa</th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">Master Card</th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #f7c6c7;  font-weight: 100;">Amex</th>
+                        <th style="background-color: #d4def1; font-weight: 100;">$48,096.41</th>
+                        <th style="background-color: #dad4e9; font-weight: 100;">$0.00</th>
+                        <th style="background-color: #d8eddd; font-weight: 100;">$48,096.41</th>
+                    </tr>
+                </body>
+            </table>
+        </div>
     </body>
 </html>
