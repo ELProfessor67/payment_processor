@@ -12,7 +12,103 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
+# KEY = os.environ.get('encryption_key')
 crypto = Cryptography(KEY)
+
+
+def add_transactions(request):
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account = request.GET.get('account')
+
+    owner = UserKeys.objects.filter(secret=secret,key=key,account_id=account).first()
+    print(owner.username)
+    # check token in empty
+    if(owner == None):
+        return HttpResponse("invalid credentials",status=401)
+
+    
+    # check request method 
+    if(request.method != "POST"):
+        return HttpResponse(f"can't {request.method} /transaction/add",status=404)
+
+    
+    
+ 
+    json_data = request.POST
+    encrypted_transaction = crypto.encrypt(json_data)
+    # encrypt transaction
+   
+
+    if(json_data):
+
+        # add in database
+        transaction = Transactions.objects.create(owner = ownername,transaction=encrypted_transaction)
+        print('Add Succesfully')
+
+        first_name = json_data['first_name']
+        last_name = json_data['last_name']
+        company = json_data['company']
+        address = json_data['address']
+        city = json_data['city']
+        state = json_data['state']
+        zip_code = json_data['zip_code']
+        country = json_data['country']
+        phone_number = json_data['phone_number']
+        amount = json_data['amount']
+        payment_method = json_data['payment_method']
+        transaction_type = json_data['transaction_type']
+        card_number = json_data['card_number']
+        exp_year = json_data['exp_year']
+        exp_month = json_data['exp_month']
+        cvv = json_data['cvv']
+        email = json_data['email']
+        transaction_id = json_data['transaction_id']
+        username = json_data['authusername']
+        ownername = owner.username
+
+        # send encrypted data to bank pending....
+        # bank code goes here
+        print(amount)
+        paylaod = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "company": company,
+            "address": address,
+            "city": city,
+            "state": state,
+            "zip_code": zip_code,
+            "country": country,
+            "phone_number": phone_number,
+            "avaible_amount": minusonecent(amount),
+            "payment_method": payment_method,
+            "transaction_type": transaction_type,
+            "card_number": card_number,
+            "exp_year": exp_year,
+            "exp_month": exp_month,
+            "cvv": cvv,
+            "email": email,
+            "transaction_id": transaction_id,
+            "fees": int(amount)/100,
+            "total_amount": amount,
+            "username": username
+        }
+
+        encrypted_transaction_for_back = crypto.encrypt(dumps(paylaod))
+
+        data = {
+            'data': encrypted_transaction_for_back
+        }
+        try:
+            res_bank = requests.post(f"{bank_url}/transation/add/?token={bank_access_token}",data=data)
+            print(res_bank.text)
+        except Exception as e:
+            print(e)
+        
+
+    return HttpResponse('Add Succesfully',status=201)
+
+
 
 
 
