@@ -131,3 +131,11 @@ class Fees(models.Model):
     flat_fee = models.FloatField()
     username = models.CharField(max_length=200, default='')
 
+
+class UserBanks(models.Model):
+     username = models.CharField(max_length=200)
+     bank_name = models.CharField(max_length=500)
+     account_id = models.CharField(max_length=500)
+     account_holder_name = models.CharField(max_length=200)
+     IFSC = models.CharField(max_length=100)
+     owner = models.CharField(max_length=100)

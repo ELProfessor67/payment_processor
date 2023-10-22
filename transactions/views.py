@@ -1,7 +1,7 @@
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from transactions.models import Transactions,Fees
+from transactions.models import Transactions,Fees, UserBanks
 from crypto import Cryptography
 from json import loads,dumps
 from access_token.models import AccessToken, UserKeys
@@ -15,7 +15,7 @@ KEY = 'Z_wXA1eKA99N-ddUodDW-LIgWLTsCyYWpcMjeO2vnqk='
 # KEY = os.environ.get('encryption_key')
 crypto = Cryptography(KEY)
 
-
+# this is payment processor code  
 def add_transactions(request):
     secret = request.GET.get('secret')
     key = request.GET.get('key')
@@ -373,3 +373,37 @@ def all_trasnactions(request):
     
     transactions = temp
     return render(request,'user_all_transaction.html',{'transactions':transactions})
+
+
+@csrf_exempt
+def add_bank_account(request):
+    secret = request.GET.get('secret')
+    key = request.GET.get('key')
+    account = request.GET.get('account')
+
+    owner = UserKeys.objects.filter(secret=secret,key=key,account_id=account).first()
+    print(owner.username,'add account')
+    # check token in empty
+    if(owner == None):
+        return HttpResponse("invalid credentials",status=401)
+    
+    if request.method == "POST":
+        bank_name = request.POST.get('bank_name')
+        account_id = request.POST.get('account_id')
+        account_holder_name = request.POST.get('account_holder_name')
+        IFSC = request.POST.get('IFSC')
+        username = request.POST.get('username')
+        account = UserBanks.objects.filter(username=username).first()
+        print(account_holder_name,account_id,bank_name,username,IFSC)
+        if account:
+            account.bank_name = bank_name
+            account.account_holder_name = account_holder_name
+            account.account_id = account_id
+            account.IFSC = IFSC
+            account.save()
+        else:
+            UserBanks.objects.create(owner=owner.username, username=username,bank_name=bank_name,account_holder_name=account_holder_name,account_id=account_id,IFSC=IFSC)
+        return HttpResponse("add succesfully",status=201)
+    
+    
+    return HttpResponse(f"can't {request.method} /transaction/add/bank_acount")

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from transactions.models import Transactions,Fees
+from transactions.models import Transactions,Fees,UserBanks
 # Register your models here.
 
 
@@ -10,3 +10,4 @@ class TransactionsAdmin(admin.ModelAdmin):
     list_filter = ['created_at']
 admin.site.register(Transactions,TransactionsAdmin)
 admin.site.register(Fees)
+admin.site.register(UserBanks)

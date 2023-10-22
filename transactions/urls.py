@@ -8,4 +8,5 @@ urlpatterns = [
     path('user/list/',views.user_show_list,name="show user list"),
     path('fee/',views.fee,name="cutomize fee"),
     path('list/<str:username>',views.user_transaction,name="show list"),
+    path('add/bank_account/',views.add_bank_account,name="add_bank_account"),
 ]
