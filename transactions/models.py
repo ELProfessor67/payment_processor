@@ -139,3 +139,14 @@ class UserBanks(models.Model):
      account_holder_name = models.CharField(max_length=200)
      IFSC = models.CharField(max_length=100)
      owner = models.CharField(max_length=100)
+
+class UsersBanks(models.Model):
+     username = models.CharField(max_length=200)
+     bank_name = models.CharField(max_length=500)
+     bank_address = models.CharField(max_length=500)
+     account_number = models.CharField(max_length=500,default='09865645')
+     account_holder_name = models.CharField(max_length=200)
+     account_holder_address = models.CharField(max_length=500)
+     routing_number = models.CharField(max_length=100)
+     bic_code = models.CharField(max_length=100,default='3454')
+     owner = models.CharField(max_length=100)

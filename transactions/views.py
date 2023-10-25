@@ -1,7 +1,7 @@
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from transactions.models import Transactions,Fees, UserBanks
+from transactions.models import Transactions,Fees, UsersBanks
 from crypto import Cryptography
 from json import loads,dumps
 from access_token.models import AccessToken, UserKeys
@@ -389,20 +389,27 @@ def add_bank_account(request):
     
     if request.method == "POST":
         bank_name = request.POST.get('bank_name')
-        account_id = request.POST.get('account_id')
+        bank_address = request.POST.get('bank_address')
+        account_number = request.POST.get('account_number')
         account_holder_name = request.POST.get('account_holder_name')
-        IFSC = request.POST.get('IFSC')
+        account_holder_address = request.POST.get('account_holder_address')
+        routing_number = request.POST.get('routing_number')
+        bic_code = request.POST.get('bic_code')
         username = request.POST.get('username')
-        account = UserBanks.objects.filter(username=username).first()
-        print(account_holder_name,account_id,bank_name,username,IFSC)
+
+        account = UsersBanks.objects.filter(username=username).first()
+        print(account_holder_name,account_number,bank_name,username,bic_code)
         if account:
             account.bank_name = bank_name
+            account.bank_address = bank_address
             account.account_holder_name = account_holder_name
-            account.account_id = account_id
-            account.IFSC = IFSC
+            account.account_number = account_number
+            account.routing_number = routing_number
+            account.account_holder_address = account_holder_address
+            account.bic_code = bic_code
             account.save()
         else:
-            UserBanks.objects.create(owner=owner.username, username=username,bank_name=bank_name,account_holder_name=account_holder_name,account_id=account_id,IFSC=IFSC)
+            UsersBanks.objects.create(owner=owner.username, username=username,bank_name=bank_name,account_holder_name=account_holder_name,account_number=account_number,bic_code=bic_code,routing_number=routing_number,account_holder_address=account_holder_name,bank_address=bank_address)
         return HttpResponse("add succesfully",status=201)
     
     
